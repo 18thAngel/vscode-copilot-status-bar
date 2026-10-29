@@ -51,8 +51,8 @@ export function parseCopilotUserResponse(
   const parsedResetDate = resetDateRaw ? new Date(resetDateRaw) : null;
   const resetDate =
     parsedResetDate && Number.isFinite(parsedResetDate.getTime()) ? parsedResetDate : null;
-
-  return {
+  let rv:QuotaSnapshot =
+   {
     planName: optionalNonEmptyString(value.copilot_plan) ?? "unknown",
     quotaTotal: requiredNumber(field, "entitlement"),
     unlimited: requiredBoolean(field, "unlimited"),
@@ -62,5 +62,6 @@ export function parseCopilotUserResponse(
     resetDate,
     resetDateHasTime: resetDate !== null && resetDateUtc !== undefined,
     capturedAt,
-  };
+  } as QuotaSnapshot;
+  return rv;
 }
