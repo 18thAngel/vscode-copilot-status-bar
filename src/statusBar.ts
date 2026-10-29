@@ -76,7 +76,7 @@ function renderTooltip(snapshot: QuotaSnapshot, stale: boolean): vscode.Markdown
   if (snapshot.unlimited) {
     md.appendMarkdown("Unlimited entitlement\n\n");
   } else if (config.showRemaining) {
-    md.appendMarkdown(`Used: ${(snapshot.percentRemaining ?? 0)}% of ${snapshot.quotaTotal}\n\n`);
+    md.appendMarkdown(`Remaining: ${(snapshot.percentRemaining ?? 0)}% of ${snapshot.quotaTotal}\n\n`);
   }
   else {
     md.appendMarkdown(`Used: ${(snapshot.percentUsed ?? 0)}% of ${snapshot.quotaTotal}\n\n`);
@@ -99,7 +99,8 @@ export interface UsageQuickPickItem extends vscode.QuickPickItem {
 }
 
 export function createUsageQuickPickItems(snapshot: QuotaSnapshot): UsageQuickPickItem[] {
-  const usedText = snapshot.unlimited ? "Unlimited" : `${percentUsed(snapshot.percentRemaining ?? 0)}% used`;
+  const config = ConfigurationHelper.CurrentConfig;
+  const usedText = snapshot.unlimited ? "Unlimited" : (config.showRemaining ? `${(snapshot.percentRemaining ?? 0)}% remaining` : `${(snapshot.percentUsed ?? 0)}% used`);
   const reset = snapshot.resetDate ? formatResetDate(snapshot.resetDate, snapshot.resetDateHasTime) : "unknown";
   return [
     {
