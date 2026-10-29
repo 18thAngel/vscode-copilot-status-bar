@@ -1,5 +1,6 @@
 import { QuotaSnapshot } from "./types";
 
+import { Helpers } from "./helpers";
 type JsonObject = Record<string, unknown>;
 
 function isObject(value: unknown): value is JsonObject {
@@ -14,6 +15,7 @@ function requiredNumber(source: JsonObject, key: string): number {
   return value;
 }
 
+/**
 function requiredBoolean(source: JsonObject, key: string): boolean {
   const value = source[key];
   if (typeof value !== "boolean") {
