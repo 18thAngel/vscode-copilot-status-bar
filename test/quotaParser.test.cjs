@@ -70,9 +70,9 @@ test("rejects missing or malformed quota data", () => {
     () =>
       parseCopilotUserResponse({
         quota_snapshots: {
-          premium_interactions: { ...paidQuota, percent_remaining: "42" },
+          premium_interactions: { ...paidQuota, percent_remaining: "NotParsableAsNumber" },
         },
       }),
-    /invalid percent_remaining/,
+    /quota response value for percent_remaining was not/,
   );
 });
