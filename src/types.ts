@@ -1,3 +1,4 @@
+import * as vscode from 'vscode';
 export interface QuotaSnapshot {
   /**
    * The name of the plan.
@@ -136,4 +137,10 @@ export interface QuotaSnapshot {
    * Field name in the response object: `timestamp_utc`
    */
   capturedAt: Date;
+}
+
+export type DisplayMode = 'Used' | 'Remaining';
+export interface CachedConfiguration {
+    displayMode: DisplayMode;
+    showRemaining: boolean;
 }
