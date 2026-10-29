@@ -44,14 +44,14 @@ export class StatusBar {
   }
 
   private renderSnapshot(snapshot: QuotaSnapshot, stale: boolean) {
-    const label = snapshot.unlimited ? "Unlimited" : `${percentUsed(snapshot.percentRemaining)}%`;
+    const label = snapshot.unlimited ? "Unlimited" : `${percentUsed(snapshot.percentRemaining??0)}%`;
     const staleSuffix = stale ? " (stale)" : "";
-    this.item.text = `$(github) Premium ${label}${staleSuffix} · resets ${resetText(snapshot.resetDate, snapshot.resetDateHasTime)}`;
+    this.item.text = `$(github) Premium ${label}${staleSuffix} · resets ${resetText(snapshot.resetDate??null, snapshot.resetDateHasTime)}`;
     this.item.tooltip = renderTooltip(snapshot, stale);
     this.item.command = "copilotStatusBar.showUsage";
 
     if (!snapshot.unlimited) {
-      const used = percentUsed(snapshot.percentRemaining);
+      const used = percentUsed(snapshot.percentRemaining??0);
       if (used >= ERROR_THRESHOLD) {
         this.item.backgroundColor = new vscode.ThemeColor("statusBarItem.errorBackground");
       } else if (used >= WARNING_THRESHOLD) {
@@ -92,7 +92,7 @@ export interface UsageQuickPickItem extends vscode.QuickPickItem {
 }
 
 export function createUsageQuickPickItems(snapshot: QuotaSnapshot): UsageQuickPickItem[] {
-  const usedText = snapshot.unlimited ? "Unlimited" : `${percentUsed(snapshot.percentRemaining)}% used`;
+  const usedText = snapshot.unlimited ? "Unlimited" : `${percentUsed(snapshot.percentRemaining??0)}% used`;
   const reset = snapshot.resetDate ? formatResetDate(snapshot.resetDate, snapshot.resetDateHasTime) : "unknown";
   return [
     {
