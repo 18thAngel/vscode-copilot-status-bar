@@ -1,4 +1,9 @@
 export interface QuotaSnapshot {
+  /**
+   * The name of the plan.
+   * Field contained in response obj: indirect
+   * Field name in the response object: `quota_id`
+   */
   planName: string;
 
   //////////
@@ -13,6 +18,9 @@ export interface QuotaSnapshot {
    * Indicates whether the quota is unlimited.
    * Needed for calculations involving quota limits
    * and avoiding division by zero.
+   * 
+   * Field contained in response obj: true
+   * Field name in the response object: `unlimited`
    */
   unlimited: boolean;
 
@@ -21,6 +29,9 @@ export interface QuotaSnapshot {
    * Should be a positive number if `unlimited` is false.
    * Ignored if `unlimited` is true, but should still be a valid not zero number.
    * suggested to be -1 when unlimited.
+   * 
+   * Field contained in response obj: true
+   * Field name in the response object: `entitlement`
    */
   quotaTotal: number;
 
@@ -32,11 +43,17 @@ export interface QuotaSnapshot {
 
   /**
    * The amount of quota used.
+   * 
+   * Field contained in response obj: true
+   * Field name in the response object: `credits_used`
    */
   quotaUsed: number | null | undefined;
 
   /**
    * The percentage of quota used.
+   * 
+   * Field contained in response obj: false
+   * Field name in the response object: ``
    */
   percentUsed: number | null | undefined;
   // ****
@@ -45,12 +62,18 @@ export interface QuotaSnapshot {
   /**
    * The amount of quota remaining.
    * -1 if the quota is unlimited.
+   * 
+   * Field contained in response obj: true
+   * Field name in the response object: `quota_remaining`
    */
   quotaRemaining: number | null | undefined;
 
   /**
    * The percentage of quota remaining.
    * 100 if the quota is unlimited.
+   * 
+   * Field contained in response obj: true
+   * Field name in the response object: `percent_remaining`
    */
   percentRemaining: number | null | undefined;
 
@@ -62,16 +85,55 @@ export interface QuotaSnapshot {
   /**
    * The factor used for percentage calculations.
    * 0 if the quota is unlimited, otherwise 100 / quotaTotal.
+   * 
+   * Field contained in response obj: true
+   * Field name in the response object: `unlimited`
    */
   percentageFactor: number | null | undefined;
 
   // ****
   // misc fields
   // **** 
+
+  /**
+   * Indicates whether overage is enabled.
+   * 
+   * Field contained in response obj: true
+   * Field name in the response object: `overage_permitted`
+   */
   overageEnabled: boolean;
+
+  /**
+   * The amount of overage used.
+   * 
+   * Field contained in response obj: true
+   * Field name in the response object: `overage_count`
+   */
   overageUsed: number;
+
+  /**
+   * The reset date of the quota.
+   * 
+   * Field contained in response obj: false
+   * Field name in the response object: ``
+   */
   resetDate: Date | null | undefined;
-  // False when resetDate was derived from a date-only field (no time-of-day is meaningful).
+  
+  
+  /**
+   * Indicates whether the resetDate includes a meaningful time-of-day.
+   * False when resetDate was derived from a date-only field (no time-of-day is meaningful).
+   * 
+   * Field contained in response obj: false
+   * Field name in the response object: ``
+   */
   resetDateHasTime: boolean;
+
+  /**
+   * The timestamp when the snapshot was captured.
+   * 
+   * Field contained in response obj: true
+   * Field name in the response object: `timestamp_utc`
+   */
   capturedAt: Date;
 }
