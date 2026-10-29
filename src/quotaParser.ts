@@ -51,10 +51,10 @@ export function parseCopilotUserResponse(
   const parsedResetDate = resetDateRaw ? new Date(resetDateRaw) : null;
   const resetDate =
     parsedResetDate && Number.isFinite(parsedResetDate.getTime()) ? parsedResetDate : null;
-
-  return {
+  let rv:QuotaSnapshot =
+   {
     planName: optionalNonEmptyString(value.copilot_plan) ?? "unknown",
-    entitlement: requiredNumber(field, "entitlement"),
+    quotaTotal: requiredNumber(field, "entitlement"),
     unlimited: requiredBoolean(field, "unlimited"),
     percentRemaining: requiredNumber(field, "percent_remaining"),
     overageEnabled: requiredBoolean(field, "overage_permitted"),
@@ -62,5 +62,6 @@ export function parseCopilotUserResponse(
     resetDate,
     resetDateHasTime: resetDate !== null && resetDateUtc !== undefined,
     capturedAt,
-  };
+  } as QuotaSnapshot;
+  return rv;
 }
