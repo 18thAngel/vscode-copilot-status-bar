@@ -54,7 +54,7 @@ export function parseCopilotUserResponse(
 
   return {
     planName: optionalNonEmptyString(value.copilot_plan) ?? "unknown",
-    entitlement: requiredNumber(field, "entitlement"),
+    quotaTotal: requiredNumber(field, "entitlement"),
     unlimited: requiredBoolean(field, "unlimited"),
     percentRemaining: requiredNumber(field, "percent_remaining"),
     overageEnabled: requiredBoolean(field, "overage_permitted"),

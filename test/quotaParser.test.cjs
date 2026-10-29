@@ -26,7 +26,7 @@ test("parses paid quota and prefers the timestamped reset date", () => {
   );
 
   assert.equal(result.planName, "business");
-  assert.equal(result.entitlement, 300);
+  assert.equal(result.quotaTotal, 300);
   assert.equal(result.percentRemaining, 42.5);
   assert.equal(result.overageEnabled, true);
   assert.equal(result.overageUsed, 2);

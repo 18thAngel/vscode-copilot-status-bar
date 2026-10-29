@@ -72,7 +72,7 @@ function renderTooltip(snapshot: QuotaSnapshot, stale: boolean): vscode.Markdown
   if (snapshot.unlimited) {
     md.appendMarkdown("Unlimited entitlement\n\n");
   } else {
-    md.appendMarkdown(`Used: ${percentUsed(snapshot.percentRemaining)}% of ${snapshot.entitlement}\n\n`);
+    md.appendMarkdown(`Used: ${percentUsed(snapshot.percentRemaining??0)}% of ${snapshot.quotaTotal}\n\n`);
   }
   if (snapshot.overageUsed > 0) {
     md.appendMarkdown(`Overage used: ${snapshot.overageUsed} (${snapshot.overageEnabled ? "enabled" : "disabled"})\n\n`);
